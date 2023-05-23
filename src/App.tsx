@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useContext, useState } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import './styles/index.scss';
 import { AboutPageAsync } from './pages/AboutPage/AboutPage.async';
