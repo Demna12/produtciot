@@ -2,7 +2,7 @@ import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { BuildOptions } from './types/config';
 
-export function buldLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
+export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
     const cssLoader = {
         test: /\.s[ac]ss$/i,
         use: [
@@ -14,7 +14,7 @@ export function buldLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
                         auto: (resPath: string) =>
                             Boolean(resPath.includes('.module.')),
                         localIdentName: isDev
-                            ? '[path].[name]__[local]'
+                            ? '[path][name]__[local]--[hash:base64:5]'
                             : '[hash:base64:8]',
                     },
                 },
@@ -22,10 +22,13 @@ export function buldLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
             'sass-loader',
         ],
     };
-    const typescriptloader = {
+
+    // Если не используем тайпскрипт - нужен babel-loader
+    const typescriptLoader = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
     };
-    return [typescriptloader, cssLoader];
+
+    return [typescriptLoader, cssLoader];
 }
